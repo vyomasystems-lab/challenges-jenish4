@@ -57,6 +57,14 @@ assert dut.seq_seen.value == exp_out, "Randomised test failed with: expected val
 ```
 
 Output mismatches for the above inputs proving that there is at least one design bug.
+It is also observed that the output mismatches in the following cases where the last 6 inputs were:
+
+* 01011
+* 001011
+* 011011
+* 1011
+
+This indicates that there are some serious bugs in the design.
 
 
 ## Design Bug(s)
