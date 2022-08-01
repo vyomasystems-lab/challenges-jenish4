@@ -1,29 +1,25 @@
-// Verilog module for Sequence detection: 1011
-module seq_detect_1011(seq_seen, inp_bit, reset, clk);
+// Verilog module for Traffic Light Controller FSM
+module FSM(l_a, l_b, inp_a, inp_b, reset, clk);
 
-  output seq_seen;
-  input inp_bit;
+  output [1:0] l_a, l_b;
+  input inp_a;
+  input inp_b;
   input reset;
   input clk;
 
-  parameter IDLE = 0,
-            SEQ_1 = 1, 
-            SEQ_10 = 2,
-            SEQ_101 = 3,
-            SEQ_1011 = 4;
+  parameter GR = 0,	// Green-Yellow signals respectively
+            YR = 1, 
+            RG = 2,
+            RY = 3,
 
-  reg [2:0] current_state, next_state;
-
-  // if the current state of the FSM has the sequence 1011, then the output is
-  // high
-  assign seq_seen = current_state == SEQ_1011 ? 1 : 0;
+  reg [1:0] current_state, next_state;
 
   // state transition
   always @(posedge clk)
   begin
     if(reset)
     begin
-      current_state <= IDLE;
+      current_state <= GR;
     end
     else
     begin
@@ -32,41 +28,45 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
   end
 
   // state transition based on the input and current state
-  always @(inp_bit or current_state)
+  always @(inp_a or inp_b or current_state)
   begin
+    next_state = GR;  // Default State
     case(current_state)
-      IDLE:
+      GR:
       begin
-        if(inp_bit == 1)
-          next_state = SEQ_1;
+        if(inp_a == 1)
+          next_state = GR;
         else
-          next_state = IDLE;
+          next_state = YR;
       end
-      SEQ_1:
+      YR:
       begin
-        if(inp_bit == 1)
-          next_state = IDLE;
+        next_state = RG;
+      end
+      RG:
+      begin
+        if(inp_b == 1)
+          next_state = RG;
         else
-          next_state = SEQ_10;
+          next_state = RY;
       end
-      SEQ_10:
+      RY:
       begin
-        if(inp_bit == 1)
-          next_state = SEQ_101;
-        else
-          next_state = IDLE;
-      end
-      SEQ_101:
-      begin
-        if(inp_bit == 1)
-          next_state = SEQ_1011;
-        else
-          next_state = IDLE;
-      end
-      SEQ_1011:
-      begin
-        next_state = IDLE;
-      end
+        next_state = GR;
+      end      
     endcase
   end
+  
+  // Output Logic
+  
+  // 0 - Green
+  // 1 Yellow
+  // 2 - Red
+  
+  assign l_a = {current_state == GR} ? 0 : 2;
+  assign l_a = {current_state == YR} ? 1 : 2;
+  
+  assign l_b = {current_state == RG} ? 0 : 2;
+  assign l_b = {current_state == RY} ? 1 : 2;
+  
 endmodule
