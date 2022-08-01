@@ -29,7 +29,7 @@ assert dut.out.value == I[S], "Randomised test failed with: expected value={EXP}
 
 Output mismatches for the above inputs proving that there is a design bug
 
-## Design Bug
+## Design Bug(s)
 Based on the above test input and analysing the design, we see the following
 
 ```
@@ -54,9 +54,10 @@ assert dut.seq_seen.value == exp_out, "Randomised test failed with: expected val
                      AssertionError: Randomised test failed with: expected value=1, output=0, last 6 inputs=[1, 0, 1, 0, 1, 1]
 ```
 
-Output mismatches for the above inputs proving that there is a design bug
+Output mismatches for the above inputs proving that there is at least one design bug.
 
-## Design Bug
+
+## Design Bug(s)
 Based on the above test input and analysing the design, we see the following
 
 ```
