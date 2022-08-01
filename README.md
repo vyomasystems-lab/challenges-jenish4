@@ -1,7 +1,7 @@
 # challenges-jenish4
 challenges-jenish4 created by GitHub Classroom
 
-# Adder Design Verification
+# Multiplexer Design Verification
 
 The verification environment is setup using [Vyoma's UpTickPro](https://vyomasystems.com) provided for the hackathon.
 
