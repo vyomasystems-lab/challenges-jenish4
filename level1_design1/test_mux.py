@@ -11,7 +11,7 @@ async def test_mux(dut):
     print("Test Started")
     cocotb.log.info('##### CTB: Develop your test here ########')
 
-    for i in range (10):
+    for i in range (50):
         
         S = random.randint(0,30)
         I = []
@@ -56,4 +56,4 @@ async def test_mux(dut):
         await Timer(2, units='ns')
 
     #    dut._log.info(f'S={S:05} I0={I0:05} model={I[S]:05} DUT={int(dut.out.value):05}')
-        assert dut.out.value == I[S], "Randomised test failed with: expected value={EXP}, output={OUTPUT}".format(EXP=I[S], OUTPUT=dut.out.value)
+        assert dut.out.value == I[S], "Randomised test failed with: expected value={EXP}, output={OUTPUT}, sel={SELECT}".format(EXP=I[S], OUTPUT=dut.out.value, SELECT=S)
