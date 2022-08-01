@@ -38,6 +38,55 @@ Based on the above test input and analysing the design, we see the following
       default: out = 0;   
 ```
 
+# Sequency Detector Design Verification
+
+## Verification Environment
+
+The test drives inputs to the Design Under Test (seq_detect_1011 module here) which takes in a 1-bit input, a clock, a reset and gives a 1-bit output
+
+Random values are assigned to the input ports 50 times. 
+
+The assert statement is used for comparing the output to the expected value.
+
+The following error is seen:
+```
+assert dut.seq_seen.value == exp_out, "Randomised test failed with: expected value={EXP}, output={OUTPUT}, last 6 inputs={I6}".format(EXP=exp_out, OUTPUT=dut.seq_seen.value, I6=I[-6:])
+                     AssertionError: Randomised test failed with: expected value=1, output=0, last 6 inputs=[1, 0, 1, 0, 1, 1]
+```
+
+Output mismatches for the above inputs proving that there is a design bug
+
+## Design Bug
+Based on the above test input and analysing the design, we see the following
+
+```
+        SEQ_1:
+      begin
+        if(inp_bit == 1)
+          next_state = IDLE;    // ===> next_state should remain SEQ_1 only since this is overlapping sequence detector.
+        else
+          next_state = SEQ_10;
+      end
+      
+      .
+      .
+      .
+      
+      SEQ_101:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_1011;
+        else
+          next_state = IDLE;  // ===> next_state should be SEQ_10 since this is overlapping sequence detector.
+      end
+      
+      SEQ_1011:
+      begin
+        next_state = IDLE;  // ===> next_state will be SEQ_10 if inp_bit is 0 otherwise it will be SEQ_1 since this is overlapping sequence detector.
+      end
+```
+
+After fixing the above mentioned bugs, we are getting correct results.
 
 # Verification Strategy
 
