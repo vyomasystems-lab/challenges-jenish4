@@ -40,7 +40,7 @@ Based on the above test input and analysing the design, we see the following
       default: out = 0;   
 ```
 
-# Sequency Detector Design Verification
+# Sequence Detector Design Verification
 
 ## Verification Environment
 
@@ -94,6 +94,31 @@ Based on the above test input and analysing the design, we see the following
       SEQ_1011:
       begin
         next_state = IDLE;  // ===> next_state will be SEQ_10 if inp_bit is 0 otherwise it will be SEQ_1 since this is overlapping sequence detector.
+      end
+```
+
+After fixing the above mentioned bugs, we are getting correct results.
+
+# Traffic Controller Design Verification
+
+## Verification Environment
+
+The test drives inputs to the Design Under Test (FSM module here) which takes in two 1-bit inputs, a clock, a reset and gives two 2-bit outputs
+
+Random values are assigned to the input ports 50 times. 
+
+The assert statement is used for comparing the output to the expected value.
+
+Output mismatches with the expected output proving that there is at least one design bug.
+
+
+## Design Bug(s)
+Based on the above test input and analysing the design, we see the following
+
+```
+       RY:
+      begin
+        next_state = RG;  // ===> This should have been GR.
       end
 ```
 
