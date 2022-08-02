@@ -52,7 +52,7 @@ module FSM(l_a, l_b, inp_a, inp_b, reset, clk);
       end
       RY:
       begin
-        next_state = GR;
+        next_state = RG;
       end      
     endcase
   end
