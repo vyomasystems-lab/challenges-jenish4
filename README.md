@@ -99,6 +99,19 @@ Based on the above test input and analysing the design, we see the following
 
 After fixing the above mentioned bugs, we are getting correct results.
 
+# mkbitmanip Design Verification
+
+
+The test drives inputs to the Design Under Test (mkbitmanip module here) which takes in 4 32-bit inputs and gives a 33-bit output
+
+Random values are assigned to the input ports 1000000 times. 
+
+The assert statement is used for comparing the output to the expected value.
+
+
+Output mismatches for some inputs proving that there is a design bug
+
+
 # Traffic Controller Design Verification
 
 ## Verification Environment
